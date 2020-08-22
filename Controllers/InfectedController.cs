@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using DotnetApi.Data.Collections;
 using MongoDB.Driver;
 using DotnetApi.Models;
+using System;
 
 namespace DotnetApi.Controllers
 {
@@ -51,9 +52,9 @@ namespace DotnetApi.Controllers
         }
 
         [HttpDelete]
-        public IActionResult DeleteInfected([FromBody] InfectedDto pInfectedDto)
+        public IActionResult DeleteInfected(DateTime pBirthDate)
         {
-            _infectedCollections.DeleteOne(Builders<Infected>.Filter.Where(_=>_.BirthDate == pInfectedDto.BirthDate));
+            _infectedCollections.DeleteOne(Builders<Infected>.Filter.Where(_=>_.BirthDate == pBirthDate));
 
             return Ok("Deletado com sucesso");
         }
