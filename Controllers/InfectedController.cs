@@ -41,5 +41,21 @@ namespace DotnetApi.Controllers
 
             return allInfected.Count != 0 ? Ok(allInfected) : StatusCode(404, "Sem infectados cadastrados");
         }
+
+        [HttpPut]
+        public IActionResult UpdateInfected([FromBody] InfectedDto pInfectedDto)
+        {
+            _infectedCollections.UpdateOne(Builders<Infected>.Filter.Where(_=>_.BirthDate == pInfectedDto.BirthDate), Builders<Infected>.Update.Set("gender", pInfectedDto.Gender));
+
+            return Ok("Atualizado com sucesso");
+        }
+
+        [HttpDelete]
+        public IActionResult DeleteInfected([FromBody] InfectedDto pInfectedDto)
+        {
+            _infectedCollections.DeleteOne(Builders<Infected>.Filter.Where(_=>_.BirthDate == pInfectedDto.BirthDate));
+
+            return Ok("Deletado com sucesso");
+        }
     }
 }
