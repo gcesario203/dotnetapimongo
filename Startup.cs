@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 
 namespace DotnetApi
 {
@@ -25,7 +26,17 @@ namespace DotnetApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<Data.Mongodb>();
             services.AddControllers();
+
+            services.AddSwaggerGen(content=>
+            {
+                content.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Infectados corona virus",
+                    Version = "v1"
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -36,6 +47,12 @@ namespace DotnetApi
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseSwagger();
+
+            app.UseSwaggerUI(content=>
+            {
+                content.SwaggerEndpoint("/swagger/v1/swagger.json", "Corona virus");
+            });
             app.UseHttpsRedirection();
 
             app.UseRouting();

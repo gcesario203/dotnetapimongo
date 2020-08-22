@@ -17,7 +17,7 @@ namespace DotnetApi.Data
             {
                 var settings = MongoClientSettings.FromUrl(new MongoUrl(configuration["ConnectionString"]));
                 var client = new MongoClient(settings);
-                DataBaseContext = client.GetDatabase("DbName");
+                DataBaseContext = client.GetDatabase("dbname");
                 MapClasses();
             }
             catch(Exception exception)

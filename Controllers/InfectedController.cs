@@ -9,8 +9,8 @@ namespace DotnetApi.Controllers
     [Route("[controller]")]
     public class InfectedController : ControllerBase
     {
-        private readonly Data.Mongodb _mongoDB;
-        private IMongoCollection<Infected> _infectedCollections;
+        Data.Mongodb _mongoDB;
+        IMongoCollection<Infected> _infectedCollections;
 
         public InfectedController(Data.Mongodb mongoContext)
         {
@@ -38,7 +38,8 @@ namespace DotnetApi.Controllers
         public IActionResult GetInfected()
         {
             var allInfected = _infectedCollections.Find(Builders<Infected>.Filter.Empty).ToList();
-            return Ok(allInfected);
+
+            return allInfected.Count != 0 ? Ok(allInfected) : StatusCode(404, "Sem infectados cadastrados");
         }
     }
 }
